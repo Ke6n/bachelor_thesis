@@ -15,8 +15,8 @@ X_train, X_test, y_train, y_test = temporal_train_test_split(X, y)
 forecaster = AutoARIMA(start_P=1, start_q=0)
 
 forecaster.fit(y_train, X_train)
-fh = ForecastingHorizon(y_test.index, is_relative=False)
-pred = forecaster.predict(fh, X_test)
+# fh = ForecastingHorizon(y_test.index, is_relative=False)
+# pred = forecaster.predict(fh, X_test)
 
 import pickle
 file = open('../../models/arima_price', 'wb')
