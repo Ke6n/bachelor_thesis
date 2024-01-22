@@ -21,7 +21,7 @@ def getDataFrame() -> pd.DataFrame:
     df = pd.DataFrame()
     for i in path_list:
         df_temp = pd.read_csv(i)
-        df_i = df_temp.loc[df_temp["station_uuid"]=='c8fbf014-a55f-4f69-ab76-4b96a6612fd6']
+        df_i = df_temp.loc[df_temp["station_uuid"]==UUID]
         if not df.empty:
             df = pd.concat([df, df_i])
         else:
@@ -42,7 +42,7 @@ for i in range(len(df.columns)):
 #print(df.isna().sum())
 
 e5_df = df.loc[:,['e5']]
-graph = e5_df.plot(figsize=(15,6), title="The daily price of Super E5 at a German petrol station, 01-01-2023 to 31-12-2023")
+graph = e5_df.plot(figsize=(15,6), title="The daily price of Super E5 at a German petrol station in 2023")
 graph.set_ylabel("EUR")
 
 fig = graph.get_figure()
