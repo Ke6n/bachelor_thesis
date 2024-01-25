@@ -2,7 +2,7 @@
 import pandas as pd
 from sktime.forecasting.model_selection import temporal_train_test_split
 from sktime.forecasting.exp_smoothing import ExponentialSmoothing
-from sktime.forecasting.base import ForecastingHorizon
+
 
 df = pd.read_csv('../../processed_data/price.csv')
 df['date'] = pd.to_datetime(df['date'])
@@ -15,6 +15,8 @@ X_train, X_test, y_train, y_test = temporal_train_test_split(X, y)
 forecaster = ExponentialSmoothing()
 
 forecaster.fit(y_train, X_train)
+
+#from sktime.forecasting.base import ForecastingHorizon
 # fh = ForecastingHorizon(y_test.index, is_relative=False)
 # pred = forecaster.predict(fh, X_test)
 
