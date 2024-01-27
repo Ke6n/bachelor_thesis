@@ -7,3 +7,4 @@ def mean_absolute_error(y_true: np.ndarray, y_pred: np.ndarray):
     return np.mean(abs_error)
 
 mae = mean_absolute_error
+

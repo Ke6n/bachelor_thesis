@@ -1,16 +1,12 @@
 #!/usr/bin/env python3
 import pandas as pd
-from sktime.forecasting.model_selection import temporal_train_test_split
+import sys
+sys.path.append("../..")
+import libs.split as split
 import lightgbm as lgb
 
 df = pd.read_csv('../../processed_data/price.csv')
-df['date'] = pd.to_datetime(df['date'])
-df['day_of_week'] = df['date'].dt.dayofweek
-df = df.set_index('date')
-X = df.drop(['e5','e10','diesel'], axis=1)
-y = df['e5']
-
-X_train, X_test, y_train, y_test = temporal_train_test_split(X, y)
+X_train, X_test, y_train, y_test = split.split_price(df)
 lgb_train = lgb.Dataset(X_train, y_train)
 lgb_test = lgb.Dataset(X_test, y_test, reference=lgb_train)
 regressor = lgb.LGBMRegressor()
