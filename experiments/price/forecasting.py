@@ -2,7 +2,7 @@
 import pandas as pd
 import sys
 sys.path.append("../..")
-import libs.split as split
+import utils.split as split
 from sktime.forecasting.model_selection import temporal_train_test_split
 import pickle
 from sktime.forecasting.base import ForecastingHorizon
@@ -39,7 +39,7 @@ pred_holt = mod_holt.predict(fh, X_test)
 pred_gbm = mod_gbm.predict(X_test)
 
 # persistenz
-true = pd.concat([y_train, y_test])
+true = pd.DataFrame(y_test)
 df_true = pd.DataFrame(true)
 df_true.rename(columns={'e5':'True'}, inplace=True)
 df_true.to_json('experimental_data/true.json')

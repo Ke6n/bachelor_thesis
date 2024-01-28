@@ -2,7 +2,7 @@
 import pandas as pd
 import sys
 sys.path.append("../..")
-import libs.split as split
+import utils.split as split
 from sktime.forecasting.exp_smoothing import ExponentialSmoothing
 
 

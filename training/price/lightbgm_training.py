@@ -2,7 +2,7 @@
 import pandas as pd
 import sys
 sys.path.append("../..")
-import libs.split as split
+import utils.split as split
 import lightgbm as lgb
 
 df = pd.read_csv('../../processed_data/price.csv')
