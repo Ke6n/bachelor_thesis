@@ -12,5 +12,9 @@ def absolute_error(y_true: np.ndarray, y_pred: np.ndarray) -> np.ndarray:
     diff = y_pred - y_true
     return np.abs(diff)
 
+def squared_error(y_true: np.ndarray, y_pred: np.ndarray) -> np.ndarray:
+    __input_check(y_true, y_pred)
+    diff = y_pred - y_true
+    return np.square(diff)
 
 
