@@ -7,7 +7,8 @@ from sktime.forecasting.arima import ARIMA
 
 
 df = pd.read_csv('../../processed_data/price.csv')
-X_train, X_test, y_train, y_test = split.split_price(df)
+y_train, y_test, X_train, X_test = split.split(df, 'AveragePrice')
+
 forecaster110 = ARIMA(order=(1,1,0))
 forecaster121 = ARIMA(order=(1,2,1))
 forecaster110.fit(y_train, X_train)

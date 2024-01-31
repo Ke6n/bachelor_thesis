@@ -3,12 +3,11 @@ import pandas as pd
 import sys
 sys.path.append("../..")
 import utils.split as split
-from sktime.forecasting.model_selection import temporal_train_test_split
 import pickle
 from sktime.forecasting.base import ForecastingHorizon
 
 df_price = pd.read_csv('../../processed_data/price.csv')
-X_train, X_test, y_train, y_test = split.split_price(df_price)
+y_train, y_test, X_train, X_test = split.split(df_price, 'AveragePrice')
 fh = ForecastingHorizon(y_test.index, is_relative=False)
 
 # reading models
@@ -41,23 +40,23 @@ pred_gbm = mod_gbm.predict(X_test)
 # persistenz
 true = pd.DataFrame(y_test)
 df_true = pd.DataFrame(true)
-df_true.rename(columns={'e5':'True'}, inplace=True)
+df_true.rename(columns={'AveragePrice':'True'}, inplace=True)
 df_true.to_json('experimental_data/true.json')
 
 df_pred_naive = pd.DataFrame(pred_naive)
-df_pred_naive.rename(columns={'e5':'Naive_1'}, inplace=True)
+df_pred_naive.rename(columns={'AveragePrice':'Naive_1'}, inplace=True)
 df_pred_naive.to_json('experimental_data/pred_naive.json')
 
 df_pred_arima110 = pd.DataFrame(pred_arima110)
-df_pred_arima110.rename(columns={'e5':'ARIMA(1,1,0)'}, inplace=True)
+df_pred_arima110.rename(columns={'AveragePrice':'ARIMA(1,1,0)'}, inplace=True)
 df_pred_arima110.to_json('experimental_data/pred_arima110.json')
 
 df_pred_arima121 = pd.DataFrame(pred_arima121)
-df_pred_arima121.rename(columns={'e5':'ARIMA(1,2,1)'}, inplace=True)
+df_pred_arima121.rename(columns={'AveragePrice':'ARIMA(1,2,1)'}, inplace=True)
 df_pred_arima121.to_json('experimental_data/pred_arima121.json')
 
 df_pred_holt = pd.DataFrame(pred_holt)
-df_pred_holt.rename(columns={'e5':'Holt-Winters'}, inplace=True)
+df_pred_holt.rename(columns={'AveragePrice':'Holt-Winters'}, inplace=True)
 df_pred_holt.to_json('experimental_data/pred_holt.json')
 
 df_pred_gbm = pd.DataFrame(pred_gbm)
@@ -67,7 +66,7 @@ df_pred_gbm.to_json('experimental_data/pred_gbm.json')
 
 # visualization
 df_pred_overview = pd.concat([df_true, df_pred_arima110, df_pred_arima121, df_pred_holt, df_pred_gbm], axis=1)
-graph = df_pred_overview.plot(figsize=(15,6), title="Super E5 price prediction overview")
+graph = df_pred_overview.plot(figsize=(15,6), title="Avocado price prediction overview")
 
 fig = graph.get_figure()
 fig.savefig('../../experiments_plots/overview/price.png')

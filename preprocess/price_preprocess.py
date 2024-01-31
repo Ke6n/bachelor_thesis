@@ -11,15 +11,14 @@ df = pd.read_csv('../datasets/avocado_price.csv')
 
 # preprocess
 df['Date'] = pd.to_datetime(df['Date'])
-price_Albany_df = df[df["region"]=='Albany']
-type_df = pd.get_dummies(price_Albany_df['type'], prefix='type', dtype=int)
+price_Albany_df = df[(df["region"]=='Albany') & (df["type"]=='organic')]
 price_Albany_df.drop(['Unnamed: 0', 'type', 'region'], axis=1, inplace=True)
 price_Albany_df['week'] = price_Albany_df['Date'].dt.isocalendar().week
-price_Albany_df = pd.concat([price_Albany_df,type_df], axis=1)
 price_Albany_df = price_Albany_df.set_index('Date')
+price_Albany_df = price_Albany_df.sort_index()
 
 price_df = price_Albany_df.loc[:,['AveragePrice']]
-graph = price_df.plot(figsize=(15,6), title="Average weekly price of a single avocado in Albany, USA, Jan. 2015 to Mar. 2018")
+graph = price_df.plot(figsize=(15,6), title="Average weekly price of a single organic avocado in Albany, USA, Jan. 2015 to Mar. 2018")
 graph.set_ylabel("USD")
 
 fig = graph.get_figure()

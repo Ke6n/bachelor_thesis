@@ -7,7 +7,7 @@ from sktime.forecasting.naive import NaiveForecaster
 
 
 df = pd.read_csv('../../processed_data/price.csv')
-X_train, X_test, y_train, y_test = split.split_price(df)
+y_train, y_test, X_train, X_test = split.split(df,'AveragePrice')
 
 forecaster = NaiveForecaster(strategy="last")
 forecaster.fit(y_train, X_train)
