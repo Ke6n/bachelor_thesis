@@ -19,9 +19,9 @@ graph = sales_df.plot(figsize=(15,6), title="Walmart store_1 weekly sales, Febru
 graph.set_ylabel("Million USD")
 
 fig = graph.get_figure()
-fig.savefig('../images/sales.png')
+fig.savefig('../data_images/sales.png')
 
 #def get_dataframe() -> pd.DataFrame:
 #    return store1_df
 
-store1_df.to_csv('../experimental_data/sales.csv')
+store1_df.to_csv('../processed_data/sales.csv')
