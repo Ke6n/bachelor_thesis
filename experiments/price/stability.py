@@ -24,7 +24,7 @@ ae_gbm = errors.absolute_error(arr_true, arr_pred_gbm)
 sys.path.append("..")
 import plotting
 save_path = '../../experiments_plots/violin_linien_plots/price_AE.png'
-plotting.line_violin_plotting(save_path, ae_arima110, ae_holt, ae_gbm, 'arima(1,1,0)', 'holt-winters', 'lightGBM')
+plotting.line_violin_plotting(save_path, ['arima(1,1,0)', 'holt-winters', 'lightGBM'], ae_arima110, ae_holt, ae_gbm)
 
 # variance
 var_ae_arima110 = np.var(ae_arima110)

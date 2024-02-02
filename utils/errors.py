@@ -19,16 +19,38 @@ def squared_error(y_true: np.ndarray, y_pred: np.ndarray) -> np.ndarray:
 
 def absolute_percentage_error(y_true: np.ndarray, y_pred: np.ndarray) -> np.ndarray:
     __input_check(y_true, y_pred)
-    percentage_error = 100*(y_true - y_pred)/y_true
+    percentage_error = np.true_divide(100*(y_true - y_pred), y_true)
     return np.abs(percentage_error)
 
 def squared_percentage_error(y_true: np.ndarray, y_pred: np.ndarray) -> np.ndarray:
     __input_check(y_true, y_pred)
-    percentage_error = 100*(y_true - y_pred)/y_true
+    percentage_error = np.true_divide(100*(y_true - y_pred), y_true)
     return np.square(percentage_error)
 
 def symmetric_absolute_percentage_error(y_true: np.ndarray, y_pred: np.ndarray) -> np.ndarray:
     __input_check(y_true, y_pred)
+    diff = np.abs(y_true - y_pred)
+    sum = np.abs(y_true) + np.abs(y_pred)
+    return 2*np.true_divide(diff, sum)
+
+def modified_symmetric_absolute_percentage_error(y_true: np.ndarray, y_pred: np.ndarray) -> np.ndarray:
+    __input_check(y_true, y_pred)
+    diff = np.abs(y_true - y_pred)
+    n = len(y_true)
+    cumsum_y = np.cumsum(y_true)
+    cumsum_y = cumsum_y[:n-1]
+    cumsum_divisor = np.linspace(1, n-1, n-1)
+    mean_cumsum_y = np.true_divide(cumsum_y, cumsum_divisor)
+    s = np.zeros(n)
+    for i in range(1,n):
+        pref_y = y_true[:i]
+        sum_abs = np.sum(np.abs(pref_y - mean_cumsum_y[i-1]))
+        s[i] = np.true_divide(sum_abs, i)
+    sum = np.abs(y_true) + np.abs(y_pred)
+    divisor = np.true_divide(sum, 2) + s
+    return np.true_divide(diff, divisor)
+
+def relative_absolute_error(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray) -> np.ndarray:
     diff = y_true - y_pred
-    sum = y_true + y_pred
-    return 200*np.abs(diff/sum)
+    diff_bm = y_true - bm_pred
+    return np.abs(np.true_divide(diff, diff_bm))
