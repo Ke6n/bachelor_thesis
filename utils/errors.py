@@ -54,3 +54,13 @@ def relative_absolute_error(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.
     diff = y_true - y_pred
     diff_bm = y_true - bm_pred
     return np.abs(np.true_divide(diff, diff_bm))
+
+def scaled_error(y_true: np.ndarray, y_pred: np.ndarray, y_in_sample: np.ndarray) -> np.ndarray:
+    diff_in_sample = np.delete(y_in_sample, 0) - np.delete(y_in_sample, -1)
+    diff = y_true - y_pred
+    return np.true_divide(diff, np.mean(np.abs(diff_in_sample)))
+
+def bounded_RAE(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray) -> np.ndarray:
+    diff = np.abs(y_true - y_pred)
+    diff_bm = np.abs(y_true - bm_pred)
+    return np.true_divide(diff, (diff + diff_bm))

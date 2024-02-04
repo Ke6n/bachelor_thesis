@@ -72,6 +72,7 @@ def modified_sMAPE(y_true: np.ndarray, y_pred: np.ndarray):
 #       MRAE
 #       MdRAE
 #       GMRAE
+#       UMBRAE
 def mean_relative_absolute_error(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray) -> np.ndarray:
     rae = errors.relative_absolute_error(y_true, y_pred,bm_pred)
     return np.mean(rae)
@@ -86,6 +87,12 @@ def geometric_mean_relative_absolute_error(y_true: np.ndarray, y_pred: np.ndarra
     rae = errors.relative_absolute_error(y_true, y_pred,bm_pred)
     return np.exp(np.mean(np.log(rae)))
 gmrae = geometric_mean_relative_absolute_error
+
+def unscaled_mean_bounded_relative_absolute_error(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray) -> np.ndarray:
+    brae = errors.bounded_RAE(y_true, y_pred,bm_pred)
+    mbrae = np.mean(brae)
+    return mbrae/(1-mbrae)
+umbrae = unscaled_mean_bounded_relative_absolute_error
 
 #   1.5 relative measures
 #       RMAE
@@ -102,11 +109,29 @@ def log_mean_squared_error_ratio(y_true: np.ndarray, y_pred: np.ndarray, bm_pred
     return math.log(relative_RMSE(y_true, y_pred, bm_pred))
 lmr = log_mean_squared_error_ratio
 
-
 #   1.6 measures based on scaled errors
 #       MASE
 #       RMSSE
+def mean_absolute_scaled_error(y_true: np.ndarray, y_pred: np.ndarray, y_in_sample: np.ndarray) -> np.ndarray:
+    return np.mean(np.abs(errors.scaled_error(y_true, y_pred, y_in_sample)))
+mase = mean_absolute_scaled_error
+
+def root_mean_squared_scaled_error(y_true: np.ndarray, y_pred: np.ndarray, y_in_sample: np.ndarray) -> np.ndarray:
+    return np.sqrt(np.mean(np.square(errors.scaled_error(y_true, y_pred, y_in_sample))))
+rmsse = root_mean_squared_scaled_error
 
 # 2. metrics of biasedness
+#    PTSU (aka. PSTSU)
+def proportion_of_tests_supporting_unbiasedness(y_true: np.ndarray, y_pred: np.ndarray) -> np.ndarray:
+    expect = np.mean(y_true)
+    z = np.array(y_pred == expect).astype(int)
+    return np.mean(z)
+ptsu = proportion_of_tests_supporting_unbiasedness
 
 # 3. metrics of correct sign
+#    PCDCP
+def percentage_of_correct_direction_change_prediction(y_true: np.ndarray, y_pred: np.ndarray) -> np.ndarray:
+    change_true = np.delete(y_true, 0) - np.delete(y_true, -1)
+    change_pred = np.delete(y_pred, 0) - np.delete(y_true, -1)
+    z = np.array(change_true*change_pred>0).astype(int)
+    return np.mean(z)
