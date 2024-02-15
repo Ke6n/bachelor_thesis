@@ -111,10 +111,15 @@ lmr = log_mean_squared_error_ratio
 
 #   1.6 measures based on scaled errors
 #       MASE
+#       MdASE
 #       RMSSE
 def mean_absolute_scaled_error(y_true: np.ndarray, y_pred: np.ndarray, y_in_sample: np.ndarray) -> np.ndarray:
     return np.mean(np.abs(errors.scaled_error(y_true, y_pred, y_in_sample)))
 mase = mean_absolute_scaled_error
+
+def median_absolute_scaled_error(y_true: np.ndarray, y_pred: np.ndarray, y_in_sample: np.ndarray) -> np.ndarray:
+    return np.median(np.abs(errors.scaled_error(y_true, y_pred, y_in_sample)))
+mdase = median_absolute_scaled_error
 
 def root_mean_squared_scaled_error(y_true: np.ndarray, y_pred: np.ndarray, y_in_sample: np.ndarray) -> np.ndarray:
     return np.sqrt(np.mean(np.square(errors.scaled_error(y_true, y_pred, y_in_sample))))
@@ -123,8 +128,12 @@ rmsse = root_mean_squared_scaled_error
 # 2. metrics of biasedness
 #    PTSU (aka. PSTSU)
 def proportion_of_tests_supporting_unbiasedness(y_true: np.ndarray, y_pred: np.ndarray) -> np.ndarray:
-    expect = np.mean(y_true)
-    z = np.array(y_pred == expect).astype(int)
+    errors = np.array(y_true - y_pred)
+    test_arr = np.delete(errors, np.where(errors == 0))
+    sign_arr = np.sign(test_arr)
+    sign_tests = np.abs(np.cumsum(sign_arr))
+    # hypothesis of unbiasedness: The differences between positive error and negative error <= 1
+    z = np.array(sign_tests <= 1).astype(int)
     return np.mean(z)
 ptsu = proportion_of_tests_supporting_unbiasedness
 
