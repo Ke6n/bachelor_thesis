@@ -132,7 +132,7 @@ def proportion_of_tests_supporting_unbiasedness(y_true: np.ndarray, y_pred: np.n
     test_arr = np.delete(errors, np.where(errors == 0))
     sign_arr = np.sign(test_arr)
     sign_tests = np.abs(np.cumsum(sign_arr))
-    # hypothesis of unbiasedness: The differences between positive error and negative error <= 1
+    # hypothesis of unbiasedness: The differences between the number of positive errors and negative errors <= 1
     z = np.array(sign_tests <= 1).astype(int)
     return np.mean(z)
 ptsu = proportion_of_tests_supporting_unbiasedness
