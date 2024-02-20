@@ -126,7 +126,7 @@ def root_mean_squared_scaled_error(y_true: np.ndarray, y_pred: np.ndarray, y_in_
 rmsse = root_mean_squared_scaled_error
 
 # 2. metrics of biasedness
-#    PTSU (aka. PSTSU)
+#    PTSU (aka. PSTSU) with standard sign test
 def proportion_of_tests_supporting_unbiasedness(y_true: np.ndarray, y_pred: np.ndarray) -> np.ndarray:
     errors = np.array(y_true - y_pred)
     test_arr = np.delete(errors, np.where(errors == 0))

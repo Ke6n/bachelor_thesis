@@ -6,6 +6,6 @@ from sktime.split.base._common import SPLIT_TYPE
 def split(df: pd.DataFrame, target_name: str) -> SPLIT_TYPE:  
     df['Date']=pd.to_datetime(df['Date'])
     df = df.set_index('Date')
-    y = df['AveragePrice']
-    X = df.drop('AveragePrice', axis=1)
+    y = df[target_name]
+    X = df.drop(target_name, axis=1)
     return temporal_train_test_split(y, X)

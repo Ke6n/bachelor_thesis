@@ -8,11 +8,12 @@ df = pd.read_csv('../datasets/TESLA_Stock.csv')
 #print(df.isna().sum())
 
 # preprocess
+df['Date'] = pd.to_datetime(df['Date'])
 df = df.set_index('Date')
 #stock_df = df.truncate(before='2021')
 #close_df = stock_df.loc[:,['Close']]
 close_df = df.loc[:,['Close']]
-graph = close_df.plot(figsize=(15,6), title="TESLA stock daily closing price, 29-06-2021 to 24-03-2022", use_index=True)
+graph = close_df.plot(figsize=(15,6), title="Overview of closing prices for selected stock series, 29-06-2021 to 24-03-2022", use_index=True)
 graph.set_ylabel("USD")
 
 fig = graph.get_figure()

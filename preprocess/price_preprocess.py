@@ -18,7 +18,7 @@ price_Albany_df = price_Albany_df.set_index('Date')
 price_Albany_df = price_Albany_df.sort_index()
 
 price_df = price_Albany_df.loc[:,['AveragePrice']]
-graph = price_df.plot(figsize=(15,6), title="Average weekly price of a single organic avocado in Albany, USA, Jan. 2015 to Mar. 2018")
+graph = price_df.plot(figsize=(15,6), title="Overview of the selected price series, Jan. 2015 to Mar. 2018")
 graph.set_ylabel("USD")
 
 fig = graph.get_figure()
