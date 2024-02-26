@@ -9,10 +9,10 @@ from sktime.forecasting.arima import ARIMA
 df = pd.read_csv('../../processed_data/price.csv')
 y_train, y_test, X_train, X_test = split.split(df, 'AveragePrice')
 
-forecaster110 = ARIMA(order=(1,1,0))
-forecaster121 = ARIMA(order=(1,2,1))
-forecaster110.fit(y_train, X_train)
-forecaster121.fit(y_train, X_train)
+forecaster010 = ARIMA(order=(0,1,0))
+forecaster111 = ARIMA(order=(1,1,1))
+forecaster010.fit(y_train, X_train)
+forecaster111.fit(y_train, X_train)
 
 #forecaster.summary()
 
@@ -21,11 +21,11 @@ forecaster121.fit(y_train, X_train)
 # pred = forecaster.predict(fh, X_test)
 
 import pickle
-file = open('../../models/arima110_price', 'wb')
-pickle.dump(forecaster110, file)
+file = open('../../models/arima010_price', 'wb')
+pickle.dump(forecaster010, file)
 file.close()
-file = open('../../models/arima121_price', 'wb')
-pickle.dump(forecaster121, file)
+file = open('../../models/arima111_price', 'wb')
+pickle.dump(forecaster111, file)
 file.close()
 
 # from sklearn.metrics import mean_squared_error

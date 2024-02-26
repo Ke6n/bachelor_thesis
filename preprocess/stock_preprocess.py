@@ -10,6 +10,8 @@ df = pd.read_csv('../datasets/TESLA_Stock.csv')
 # preprocess
 df['Date'] = pd.to_datetime(df['Date'])
 df = df.set_index('Date')
+df = df.resample('D').asfreq().ffill()
+#print(df.isna().sum())
 #stock_df = df.truncate(before='2021')
 #close_df = stock_df.loc[:,['Close']]
 close_df = df.loc[:,['Close']]

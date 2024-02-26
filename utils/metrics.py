@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import numpy as np
-import errors
+import utils.errors as errors
 
 # 1. metrics of goodness of fit
 #   1.1 Scale dependent measures
@@ -73,22 +73,22 @@ def modified_sMAPE(y_true: np.ndarray, y_pred: np.ndarray):
 #       MdRAE
 #       GMRAE
 #       UMBRAE
-def mean_relative_absolute_error(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray) -> np.ndarray:
+def mean_relative_absolute_error(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray):
     rae = errors.relative_absolute_error(y_true, y_pred,bm_pred)
     return np.mean(rae)
 mrae = mean_relative_absolute_error
 
-def median_relative_absolute_error(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray) -> np.ndarray:
+def median_relative_absolute_error(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray):
     rae = errors.relative_absolute_error(y_true, y_pred,bm_pred)
     return np.median(rae)
 mdrae = median_relative_absolute_error
 
-def geometric_mean_relative_absolute_error(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray) -> np.ndarray:
+def geometric_mean_relative_absolute_error(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray):
     rae = errors.relative_absolute_error(y_true, y_pred,bm_pred)
     return np.exp(np.mean(np.log(rae)))
 gmrae = geometric_mean_relative_absolute_error
 
-def unscaled_mean_bounded_relative_absolute_error(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray) -> np.ndarray:
+def unscaled_mean_bounded_relative_absolute_error(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray):
     brae = errors.bounded_RAE(y_true, y_pred,bm_pred)
     mbrae = np.mean(brae)
     return mbrae/(1-mbrae)
@@ -98,14 +98,14 @@ umbrae = unscaled_mean_bounded_relative_absolute_error
 #       RMAE
 #       RRMSE
 #       LMR
-def relative_MAE(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray) -> np.ndarray:
+def relative_MAE(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray):
     return mae(y_true, y_pred)/mae(y_true, bm_pred)
 
-def relative_RMSE(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray) -> np.ndarray:
+def relative_RMSE(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray):
     return rmse(y_true, y_pred)/rmse(y_true, bm_pred)
 
 import math
-def log_mean_squared_error_ratio(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray) -> np.ndarray:
+def log_mean_squared_error_ratio(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray):
     return math.log(relative_RMSE(y_true, y_pred, bm_pred))
 lmr = log_mean_squared_error_ratio
 
@@ -113,21 +113,21 @@ lmr = log_mean_squared_error_ratio
 #       MASE
 #       MdASE
 #       RMSSE
-def mean_absolute_scaled_error(y_true: np.ndarray, y_pred: np.ndarray, y_in_sample: np.ndarray) -> np.ndarray:
+def mean_absolute_scaled_error(y_true: np.ndarray, y_pred: np.ndarray, y_in_sample: np.ndarray):
     return np.mean(np.abs(errors.scaled_error(y_true, y_pred, y_in_sample)))
 mase = mean_absolute_scaled_error
 
-def median_absolute_scaled_error(y_true: np.ndarray, y_pred: np.ndarray, y_in_sample: np.ndarray) -> np.ndarray:
+def median_absolute_scaled_error(y_true: np.ndarray, y_pred: np.ndarray, y_in_sample: np.ndarray):
     return np.median(np.abs(errors.scaled_error(y_true, y_pred, y_in_sample)))
 mdase = median_absolute_scaled_error
 
-def root_mean_squared_scaled_error(y_true: np.ndarray, y_pred: np.ndarray, y_in_sample: np.ndarray) -> np.ndarray:
+def root_mean_squared_scaled_error(y_true: np.ndarray, y_pred: np.ndarray, y_in_sample: np.ndarray):
     return np.sqrt(np.mean(np.square(errors.scaled_error(y_true, y_pred, y_in_sample))))
 rmsse = root_mean_squared_scaled_error
 
 # 2. metrics of biasedness
 #    PTSU (aka. PSTSU) with standard sign test
-def proportion_of_tests_supporting_unbiasedness(y_true: np.ndarray, y_pred: np.ndarray) -> np.ndarray:
+def proportion_of_tests_supporting_unbiasedness(y_true: np.ndarray, y_pred: np.ndarray):
     errors = np.array(y_true - y_pred)
     test_arr = np.delete(errors, np.where(errors == 0))
     sign_arr = np.sign(test_arr)
@@ -139,8 +139,9 @@ ptsu = proportion_of_tests_supporting_unbiasedness
 
 # 3. metrics of correct sign
 #    PCDCP
-def percentage_of_correct_direction_change_prediction(y_true: np.ndarray, y_pred: np.ndarray) -> np.ndarray:
+def percentage_of_correct_direction_change_prediction(y_true: np.ndarray, y_pred: np.ndarray):
     change_true = np.delete(y_true, 0) - np.delete(y_true, -1)
     change_pred = np.delete(y_pred, 0) - np.delete(y_true, -1)
     z = np.array(change_true*change_pred>0).astype(int)
     return np.mean(z)
+pcdcp = percentage_of_correct_direction_change_prediction
