@@ -64,3 +64,7 @@ def bounded_RAE(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray) -> 
     diff = np.abs(y_true - y_pred)
     diff_bm = np.abs(y_true - bm_pred)
     return np.true_divide(diff, (diff + diff_bm))
+
+def seasonal_error(y_in_sample: np.ndarray, seasonality = 1)-> np.ndarray:
+    return np.delete(y_in_sample, np.s_[:seasonality]) - np.delete(y_in_sample, np.s_[-seasonality:])
+    

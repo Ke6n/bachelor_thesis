@@ -4,7 +4,12 @@ import numpy as np
 import utils.metrics as metrics
 
 # Calculate all metrics and return a ndarray of accuracy
-def get_accuracy_arr(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray, y_in_sample: np.ndarray):
+def get_accuracy_arr(y_true: np.ndarray, y_pred: np.ndarray, **kwargs:np.ndarray):
+    bm_pred = kwargs.get("bm_pred")
+    y_in_sample = kwargs.get("y_in_sample")
+    lower = kwargs.get("lower")
+    upper = kwargs.get("upper")
+    
     list = []
     mae = metrics.mae(y_true, y_pred)
     list.append(mae)
@@ -22,6 +27,8 @@ def get_accuracy_arr(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray
     list.append(rmspe)
     rmdspe = metrics.rmdspe(y_true, y_pred)
     list.append(rmdspe)
+    wMAPE = metrics.weighted_MAPE(y_true, y_pred)
+    list.append(wMAPE)
     sMAPE = metrics.symmetric_MAPE(y_true, y_pred)
     list.append(sMAPE)
     sMdAPE = metrics.symmetric_MdAPE(y_true, y_pred)
@@ -48,6 +55,8 @@ def get_accuracy_arr(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray
     list.append(mdase)
     rmsse = metrics.rmsse(y_true, y_pred, y_in_sample)
     list.append(rmsse)
+    msis = metrics.msis(y_true, y_in_sample, lower, upper)
+    list.append(msis)
     ptsu = metrics.ptsu(y_true, y_pred)
     list.append(ptsu)
     pcdcp = metrics.pcdcp(y_true, y_pred)

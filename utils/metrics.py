@@ -52,7 +52,14 @@ def root_median_squared_percentage_error(y_true: np.ndarray, y_pred: np.ndarray)
     return np.sqrt(np.median(spe))
 rmdspe = root_median_squared_percentage_error
 
-#   1.3 measures based on symmetric errors
+#   1.3 Weighted arithmetic mean based metrics
+#       wMAPE
+def weighted_MAPE(y_true: np.ndarray, y_pred: np.ndarray):
+    sum_AE = np.sum(errors.absolute_error(y_true, y_pred))
+    sum_true = np.sum(np.abs(y_true))
+    return 100*(sum_AE/sum_true)
+
+#   1.4 measures based on symmetric errors
 #       sMAPE
 #       sMdAPE
 #       msMAPE
@@ -68,7 +75,7 @@ def modified_sMAPE(y_true: np.ndarray, y_pred: np.ndarray):
     msape = errors.modified_symmetric_absolute_percentage_error(y_true, y_pred)
     return np.mean(msape)
 
-#   1.4 measures based on relative errors
+#   1.5 measures based on relative errors
 #       MRAE
 #       MdRAE
 #       GMRAE
@@ -83,9 +90,10 @@ def median_relative_absolute_error(y_true: np.ndarray, y_pred: np.ndarray, bm_pr
     return np.median(rae)
 mdrae = median_relative_absolute_error
 
+from scipy.stats import gmean
 def geometric_mean_relative_absolute_error(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray):
     rae = errors.relative_absolute_error(y_true, y_pred,bm_pred)
-    return np.exp(np.mean(np.log(rae)))
+    return gmean(rae)
 gmrae = geometric_mean_relative_absolute_error
 
 def unscaled_mean_bounded_relative_absolute_error(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray):
@@ -94,7 +102,7 @@ def unscaled_mean_bounded_relative_absolute_error(y_true: np.ndarray, y_pred: np
     return mbrae/(1-mbrae)
 umbrae = unscaled_mean_bounded_relative_absolute_error
 
-#   1.5 relative measures
+#   1.6 relative measures
 #       RMAE
 #       RRMSE
 #       LMR
@@ -109,7 +117,7 @@ def log_mean_squared_error_ratio(y_true: np.ndarray, y_pred: np.ndarray, bm_pred
     return math.log(relative_RMSE(y_true, y_pred, bm_pred))
 lmr = log_mean_squared_error_ratio
 
-#   1.6 measures based on scaled errors
+#   1.7 measures based on scaled errors
 #       MASE
 #       MdASE
 #       RMSSE
@@ -124,6 +132,19 @@ mdase = median_absolute_scaled_error
 def root_mean_squared_scaled_error(y_true: np.ndarray, y_pred: np.ndarray, y_in_sample: np.ndarray):
     return np.sqrt(np.mean(np.square(errors.scaled_error(y_true, y_pred, y_in_sample))))
 rmsse = root_mean_squared_scaled_error
+
+#   1.8 metrics for evaluating the forecast interval
+#       MSIS
+def mean_scaled_interval_score(y_true: np.ndarray, y_in_sample: np.ndarray,
+                                lower: np.ndarray, upper: np.ndarray, alpha = 0.1, seasonality = 1):
+    mean_abs_sea_error = np.mean(np.abs(errors.seasonal_error(y_in_sample, seasonality)))
+    interval_score = np.mean(
+            upper - lower
+            + 2.0/ alpha* (lower - y_true)*(y_true < lower)
+            + 2.0/ alpha*(y_true - upper)*(y_true > upper)
+        )
+    return interval_score/mean_abs_sea_error
+msis = mean_scaled_interval_score
 
 # 2. metrics of biasedness
 #    PTSU (aka. PSTSU) with standard sign test
