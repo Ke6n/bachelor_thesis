@@ -8,7 +8,7 @@ from sktime.forecasting.ets import AutoETS
 
 df = pd.read_csv('../../processed_data/price.csv')
 y_train, y_test, X_train, X_test = split.split(df, 'AveragePrice')
-forecaster = AutoETS(trend='add', seasonal='mul', sp=7)
+forecaster = AutoETS(trend='add', seasonal='mul', sp=52)
 
 forecaster.fit(y_train, X_train)
 
