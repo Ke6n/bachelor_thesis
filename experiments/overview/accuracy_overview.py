@@ -62,51 +62,51 @@ stock_upper_gbm =  np.loadtxt('../exp_data/stock/upper_gbm.txt')
 stock_upper_holt =  np.loadtxt('../exp_data/stock/upper_holt.txt')
 stock_upper_naive =  np.loadtxt('../exp_data/stock/upper_naive.txt')
 
-accu_price_arima010 = accu.get_accuracy_arr(price_true, price_pred_arima010, 
+accu_price_arima010 = accu.get_accuracy_arr(y_true=price_true, y_pred=price_pred_arima010, 
                                             bm_pred=price_bm_pred, y_in_sample=price_in_sample, 
                                             lower=price_lower_arima010, upper=price_upper_arima010)
-accu_price_arima111 = accu.get_accuracy_arr(price_true, price_pred_arima111,
+accu_price_arima111 = accu.get_accuracy_arr(y_true=price_true, y_pred=price_pred_arima111,
                                             bm_pred=price_bm_pred, y_in_sample=price_in_sample,
                                             lower=price_lower_arima111, upper=price_upper_arima111)
-accu_price_gbm = accu.get_accuracy_arr(price_true, price_pred_gbm, 
+accu_price_gbm = accu.get_accuracy_arr(y_true=price_true, y_pred=price_pred_gbm, 
                                        bm_pred=price_bm_pred, y_in_sample=price_in_sample, 
                                        lower=price_lower_gbm, upper=price_upper_gbm)
-accu_price_holt = accu.get_accuracy_arr(price_true, price_pred_holt,
+accu_price_holt = accu.get_accuracy_arr(y_true=price_true, y_pred=price_pred_holt,
                                         bm_pred=price_bm_pred, y_in_sample=price_in_sample,
                                         lower=price_lower_holt, upper=price_upper_holt)
-accu_price_naive = accu.get_accuracy_arr(price_true, price_pred_naive, 
+accu_price_naive = accu.get_accuracy_arr(y_true=price_true, y_pred=price_pred_naive, 
                                          bm_pred=price_bm_pred, y_in_sample=price_in_sample, 
                                          lower=price_lower_naive, upper=price_upper_naive)
 
-accu_sales_arima010 = accu.get_accuracy_arr(sales_true, sales_pred_arima010, 
+accu_sales_arima010 = accu.get_accuracy_arr(y_true=sales_true, y_pred=sales_pred_arima010, 
                                             bm_pred=sales_bm_pred, y_in_sample=sales_in_sample, 
                                             lower=sales_lower_arima010, upper=sales_upper_arima010)
-accu_sales_arima111 = accu.get_accuracy_arr(sales_true, sales_pred_arima111, 
+accu_sales_arima111 = accu.get_accuracy_arr(y_true=sales_true, y_pred=sales_pred_arima111, 
                                             bm_pred=sales_bm_pred, y_in_sample=sales_in_sample, 
                                             lower=sales_lower_arima111, upper=sales_upper_arima111)
-accu_sales_gbm = accu.get_accuracy_arr(sales_true, sales_pred_gbm, 
+accu_sales_gbm = accu.get_accuracy_arr(y_true=sales_true, y_pred=sales_pred_gbm, 
                                        bm_pred=sales_bm_pred, y_in_sample=sales_in_sample, 
                                        lower=sales_lower_gbm, upper=sales_upper_gbm)
-accu_sales_holt = accu.get_accuracy_arr(sales_true, sales_pred_holt, 
+accu_sales_holt = accu.get_accuracy_arr(y_true=sales_true, y_pred=sales_pred_holt, 
                                        bm_pred=sales_bm_pred, y_in_sample=sales_in_sample, 
                                        lower=sales_lower_holt, upper=sales_upper_holt)
-accu_sales_naive = accu.get_accuracy_arr(sales_true, sales_pred_naive, 
+accu_sales_naive = accu.get_accuracy_arr(y_true=sales_true, y_pred=sales_pred_naive, 
                                        bm_pred=sales_bm_pred, y_in_sample=sales_in_sample, 
                                        lower=sales_lower_naive, upper=sales_upper_naive)
 
-accu_stock_arima010 = accu.get_accuracy_arr(stock_true, stock_pred_arima010, 
+accu_stock_arima010 = accu.get_accuracy_arr(y_true=stock_true, y_pred=stock_pred_arima010, 
                                             bm_pred=stock_bm_pred, y_in_sample=stock_in_sample, 
                                             lower=stock_lower_arima010, upper=stock_upper_arima010)
-accu_stock_arima111 = accu.get_accuracy_arr(stock_true, stock_pred_arima111, 
+accu_stock_arima111 = accu.get_accuracy_arr(y_true=stock_true, y_pred=stock_pred_arima111, 
                                             bm_pred=stock_bm_pred, y_in_sample=stock_in_sample, 
                                             lower=stock_lower_arima111, upper=stock_upper_arima111)
-accu_stock_gbm = accu.get_accuracy_arr(stock_true, stock_pred_gbm, 
+accu_stock_gbm = accu.get_accuracy_arr(y_true=stock_true, y_pred=stock_pred_gbm, 
                                        bm_pred=stock_bm_pred, y_in_sample=stock_in_sample, 
                                        lower=stock_lower_gbm, upper=stock_upper_gbm)
-accu_stock_holt = accu.get_accuracy_arr(stock_true, stock_pred_holt, 
+accu_stock_holt = accu.get_accuracy_arr(y_true=stock_true, y_pred=stock_pred_holt, 
                                         bm_pred=stock_bm_pred, y_in_sample=stock_in_sample, 
                                         lower=stock_lower_holt, upper=stock_upper_holt)
-accu_stock_naive = accu.get_accuracy_arr(stock_true, stock_pred_naive, 
+accu_stock_naive = accu.get_accuracy_arr(y_true=stock_true, y_pred=stock_pred_naive, 
                                         bm_pred=stock_bm_pred, y_in_sample=stock_in_sample, 
                                         lower=stock_lower_naive, upper=stock_upper_naive)
 
@@ -124,4 +124,5 @@ df = df.set_index(pd.Index(df_labels.get_metrics()))
 col_name_lv2 = df_labels.get_models()
 df.columns = col_name_lv2
 df = df.round(2)
-df.to_latex('../exp_data/accuracy_overview.tex',multicolumn_format="c",column_format="l|rrrrr|rrrrr|rrrrr", float_format="{:0.2f}".format, index=True)
+df.to_latex('../exp_data/accuracy_overview.tex',multicolumn_format="c",column_format="l|rrrrr|rrrrr|rrrrr", 
+            float_format="{:0.2f}".format, index=True)

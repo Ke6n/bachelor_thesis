@@ -9,21 +9,25 @@ import utils.errors as errors
 #       MSE
 #       RMSE
 def mean_absolute_error(y_true: np.ndarray, y_pred: np.ndarray):
+    __input_check(y_true, y_pred)
     abs_error = errors.absolute_error(y_true, y_pred)
     return np.mean(abs_error)
 mae = mean_absolute_error
 
 def median_absolute_error(y_true: np.ndarray, y_pred: np.ndarray):
+    __input_check(y_true, y_pred)
     abs_error = errors.absolute_error(y_true, y_pred)
     return np.median(abs_error)
 mdae = median_absolute_error
 
 def mean_squared_error(y_true: np.ndarray, y_pred: np.ndarray):
+    __input_check(y_true, y_pred)
     squared_error = errors.squared_error(y_true, y_pred)
     return np.mean(squared_error)
 mse = mean_squared_error
 
 def root_mean_squared_error(y_true: np.ndarray, y_pred: np.ndarray):
+    __input_check(y_true, y_pred)
     return np.sqrt(mse(y_true, y_pred))
 rmse = root_mean_squared_error
 
@@ -33,21 +37,25 @@ rmse = root_mean_squared_error
 #       RMSPE
 #       RMdSPE
 def mean_absolute_percentage_error(y_true: np.ndarray, y_pred: np.ndarray):
+    __input_check(y_true, y_pred)
     ape = errors.absolute_percentage_error(y_true, y_pred)
     return np.mean(ape)
 mape = mean_absolute_percentage_error
 
 def median_absolute_percentage_error(y_true: np.ndarray, y_pred: np.ndarray):
+    __input_check(y_true, y_pred)
     ape = errors.absolute_percentage_error(y_true, y_pred)
     return np.median(ape)
 mdape = median_absolute_percentage_error
 
 def root_mean_squared_percentage_error(y_true: np.ndarray, y_pred: np.ndarray):
+    __input_check(y_true, y_pred)
     spe = errors.squared_percentage_error(y_true, y_pred)
     return np.sqrt(np.mean(spe))
 rmspe = root_mean_squared_percentage_error
 
 def root_median_squared_percentage_error(y_true: np.ndarray, y_pred: np.ndarray):
+    __input_check(y_true, y_pred)
     spe = errors.squared_percentage_error(y_true, y_pred)
     return np.sqrt(np.median(spe))
 rmdspe = root_median_squared_percentage_error
@@ -55,6 +63,7 @@ rmdspe = root_median_squared_percentage_error
 #   1.3 Weighted arithmetic mean based metrics
 #       wMAPE
 def weighted_MAPE(y_true: np.ndarray, y_pred: np.ndarray):
+    __input_check(y_true, y_pred)
     sum_AE = np.sum(errors.absolute_error(y_true, y_pred))
     sum_true = np.sum(np.abs(y_true))
     return 100*(sum_AE/sum_true)
@@ -64,14 +73,17 @@ def weighted_MAPE(y_true: np.ndarray, y_pred: np.ndarray):
 #       sMdAPE
 #       msMAPE
 def symmetric_MAPE(y_true: np.ndarray, y_pred: np.ndarray):
+    __input_check(y_true, y_pred)
     sape = errors.symmetric_absolute_percentage_error(y_true, y_pred)
     return np.mean(100 * sape)
 
 def symmetric_MdAPE(y_true: np.ndarray, y_pred: np.ndarray):
+    __input_check(y_true, y_pred)
     sape = errors.symmetric_absolute_percentage_error(y_true, y_pred)
     return np.mean(100 * sape)
 
 def modified_sMAPE(y_true: np.ndarray, y_pred: np.ndarray):
+    __input_check(y_true, y_pred)
     msape = errors.modified_symmetric_absolute_percentage_error(y_true, y_pred)
     return np.mean(msape)
 
@@ -81,22 +93,30 @@ def modified_sMAPE(y_true: np.ndarray, y_pred: np.ndarray):
 #       GMRAE
 #       UMBRAE
 def mean_relative_absolute_error(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray):
+    __input_check(y_true, y_pred)
+    __input_check(y_true, bm_pred)
     rae = errors.relative_absolute_error(y_true, y_pred,bm_pred)
     return np.mean(rae)
 mrae = mean_relative_absolute_error
 
 def median_relative_absolute_error(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray):
+    __input_check(y_true, y_pred)
+    __input_check(y_true, bm_pred)
     rae = errors.relative_absolute_error(y_true, y_pred,bm_pred)
     return np.median(rae)
 mdrae = median_relative_absolute_error
 
 from scipy.stats import gmean
 def geometric_mean_relative_absolute_error(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray):
+    __input_check(y_true, y_pred)
+    __input_check(y_true, bm_pred)
     rae = errors.relative_absolute_error(y_true, y_pred,bm_pred)
     return gmean(rae)
 gmrae = geometric_mean_relative_absolute_error
 
 def unscaled_mean_bounded_relative_absolute_error(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray):
+    __input_check(y_true, y_pred)
+    __input_check(y_true, bm_pred)
     brae = errors.bounded_RAE(y_true, y_pred,bm_pred)
     mbrae = np.mean(brae)
     return mbrae/(1-mbrae)
@@ -107,13 +127,19 @@ umbrae = unscaled_mean_bounded_relative_absolute_error
 #       RRMSE
 #       LMR
 def relative_MAE(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray):
+    __input_check(y_true, y_pred)
+    __input_check(y_true, bm_pred)
     return mae(y_true, y_pred)/mae(y_true, bm_pred)
 
 def relative_RMSE(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray):
+    __input_check(y_true, y_pred)
+    __input_check(y_true, bm_pred)
     return rmse(y_true, y_pred)/rmse(y_true, bm_pred)
 
 import math
 def log_mean_squared_error_ratio(y_true: np.ndarray, y_pred: np.ndarray, bm_pred: np.ndarray):
+    __input_check(y_true, y_pred)
+    __input_check(y_true, bm_pred)
     return math.log(relative_RMSE(y_true, y_pred, bm_pred))
 lmr = log_mean_squared_error_ratio
 
@@ -122,14 +148,20 @@ lmr = log_mean_squared_error_ratio
 #       MdASE
 #       RMSSE
 def mean_absolute_scaled_error(y_true: np.ndarray, y_pred: np.ndarray, y_in_sample: np.ndarray):
+    __input_check(y_true, y_pred)
+    __input_check(y_in_sample, y_in_sample)
     return np.mean(np.abs(errors.scaled_error(y_true, y_pred, y_in_sample)))
 mase = mean_absolute_scaled_error
 
 def median_absolute_scaled_error(y_true: np.ndarray, y_pred: np.ndarray, y_in_sample: np.ndarray):
+    __input_check(y_true, y_pred)
+    __input_check(y_in_sample, y_in_sample)
     return np.median(np.abs(errors.scaled_error(y_true, y_pred, y_in_sample)))
 mdase = median_absolute_scaled_error
 
 def root_mean_squared_scaled_error(y_true: np.ndarray, y_pred: np.ndarray, y_in_sample: np.ndarray):
+    __input_check(y_true, y_pred)
+    __input_check(y_in_sample, y_in_sample)
     return np.sqrt(np.mean(np.square(errors.scaled_error(y_true, y_pred, y_in_sample))))
 rmsse = root_mean_squared_scaled_error
 
@@ -137,6 +169,9 @@ rmsse = root_mean_squared_scaled_error
 #       MSIS
 def mean_scaled_interval_score(y_true: np.ndarray, y_in_sample: np.ndarray,
                                 lower: np.ndarray, upper: np.ndarray, alpha = 0.1, seasonality = 1):
+    __input_check(y_true, lower)
+    __input_check(y_true, upper)
+    __input_check(y_in_sample, y_in_sample)
     mean_abs_sea_error = np.mean(np.abs(errors.seasonal_error(y_in_sample, seasonality)))
     interval_score = np.mean(
             upper - lower
@@ -149,6 +184,7 @@ msis = mean_scaled_interval_score
 # 2. metrics of biasedness
 #    PTSU (aka. PSTSU) with standard sign test
 def proportion_of_tests_supporting_unbiasedness(y_true: np.ndarray, y_pred: np.ndarray):
+    __input_check(y_true, y_pred)
     errors = np.array(y_true - y_pred)
     test_arr = np.delete(errors, np.where(errors == 0))
     sign_arr = np.sign(test_arr)
@@ -161,8 +197,16 @@ ptsu = proportion_of_tests_supporting_unbiasedness
 # 3. metrics of correct sign
 #    PCDCP
 def percentage_of_correct_direction_change_prediction(y_true: np.ndarray, y_pred: np.ndarray):
+    __input_check(y_true, y_pred)
     change_true = np.delete(y_true, 0) - np.delete(y_true, -1)
     change_pred = np.delete(y_pred, 0) - np.delete(y_true, -1)
     z = np.array(change_true*change_pred>0).astype(int)
     return np.mean(z)
 pcdcp = percentage_of_correct_direction_change_prediction
+
+
+def __input_check(arr1: np.ndarray, arr2: np.ndarray):
+    if arr1.ndim != arr2.ndim:
+        raise ValueError("Equal dimension required for y_true and y_pred")
+    if arr1.ndim != 1 or arr2.ndim != 1:
+        raise ValueError("Dimension of y_true and y_pred must be 1")
