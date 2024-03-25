@@ -35,4 +35,4 @@ for metric in metrics:
 
 df = pd.DataFrame({'Metrics': metrics, 'Variance': variance})
 #df = df.round(2)
-df.to_latex('../exp_data/variance.tex', float_format="{:0.2f}".format, index=False)
+df.to_latex('../exp_data/variance.tex', float_format="{:0.2e}".format, index=False)

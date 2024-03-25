@@ -11,7 +11,6 @@ def __outliers(arr: np.ndarray):
 
 def violin_plotting(save_path:str, xlabel: str, acc_set: np.ndarray):
     plt.figure(figsize=(15, 6))
-    ax = plt.subplot()
     sns.violinplot(x=acc_set, fill=False, cut=0)
     outliers = __outliers(acc_set)
     sns.scatterplot(x=outliers, y=np.zeros(outliers.size), markers='o')
