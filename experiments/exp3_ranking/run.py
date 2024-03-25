@@ -112,6 +112,9 @@ save_path = '../../experiments_plots/model_ranking/sales.png'
 plotting.line_plotting(save_path, sig_rank_sales)
 
 # Sorting using mcda method
+# The preference function see:
+#   Xu B, Ouenniche J. Performance evaluation of competing forecasting models: A multidimensional framework based on MCDA[J]. 
+#   Expert Systems with Applications, 2012, 39(9): 8312-8324.
 body = PROMETHEE_II('vshape')
 weights = [0.5, 0.3, 0.2]
 types = np.array([-1, -1, 1])
@@ -120,7 +123,7 @@ types = np.array([-1, -1, 1])
 def threshold(df:pd.DataFrame, criterion:str, coef):
     return coef*(df[criterion].max()- df[criterion].min())
 
-# The coefficients of thresholds see:
+# The coefficients of thresholds see also:
 #   Xu B, Ouenniche J. Performance evaluation of competing forecasting models: A multidimensional framework based on MCDA[J]. 
 #   Expert Systems with Applications, 2012, 39(9): 8312-8324.
 q2_price = threshold(df_accu_price, 'PCDCP', 0.01)
