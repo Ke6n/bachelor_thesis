@@ -33,6 +33,6 @@ for metric in metrics:
     var_acc = np.var(acc_arr)
     variance.append(var_acc)
 
-df = pd.DataFrame({'Metrics': metrics, 'Variance': variance})
+df = pd.DataFrame({'Metrics': metrics, 'Variance': variance}).sort_values(by=['Variance'])
 #df = df.round(2)
 df.to_latex('../exp_data/variance.tex', float_format="{:0.2e}".format, index=False)
