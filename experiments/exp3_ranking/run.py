@@ -163,7 +163,7 @@ mcda_rank_price = mcda_rank_price.rank(ascending=False, method='dense').transpos
 mcda_rank_sales = mcda_rank_sales.rank(ascending=False, method='dense').transpose()
 
 save_path = '../../experiments_plots/model_ranking/mcda_price.png'
-plotting.line_plotting(save_path, mcda_rank_price)
+plotting.line_plotting(save_path, mcda_rank_price, fontsize=6.5)
 
 save_path = '../../experiments_plots/model_ranking/mcda_sales.png'
-plotting.line_plotting(save_path, mcda_rank_sales)
+plotting.line_plotting(save_path, mcda_rank_sales, fontsize=6.5)
