@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import pandas as pd
 import numpy as np
 import utils.metrics as metrics
 
@@ -10,8 +9,8 @@ def get_accuracy_arr(**kwargs:np.ndarray):
     y_pred = kwargs.get("y_pred")
     bm_pred = kwargs.get("bm_pred")
     y_in_sample = kwargs.get("y_in_sample")
-    lower = kwargs.get("lower")
-    upper = kwargs.get("upper")
+    #lower = kwargs.get("lower")
+    #upper = kwargs.get("upper")
     
     list = []
     mae = metrics.mae(y_true, y_pred)
@@ -58,8 +57,8 @@ def get_accuracy_arr(**kwargs:np.ndarray):
     list.append(mdase)
     rmsse = metrics.rmsse(y_true, y_pred, y_in_sample)
     list.append(rmsse)
-    msis = metrics.msis(y_true, y_in_sample, lower, upper)
-    list.append(msis)
+    #msis = metrics.msis(y_true, y_in_sample, lower, upper)
+    #list.append(msis)
     ptsu = metrics.ptsu(y_true, y_pred)
     list.append(ptsu)
     pcdcp = metrics.pcdcp(y_true, y_pred)
@@ -74,14 +73,17 @@ def get_accuracy_set(metric: str, window_size: int, **kwargs:np.ndarray):
     y_pred = kwargs.get("y_pred")
     bm_pred = kwargs.get("bm_pred")
     y_in_sample = kwargs.get("y_in_sample")
-    lower = kwargs.get("lower")
-    upper = kwargs.get("upper")
+    #lower = kwargs.get("lower")
+    #upper = kwargs.get("upper")
     
-    subset_tups = rwin.rolling_window(window_size, y_true, y_pred, bm_pred, lower, upper)
+    #subset_tups = rwin.rolling_window(window_size, y_true, y_pred, bm_pred, lower, upper)
+    subset_tups = rwin.rolling_window(window_size, y_true, y_pred, bm_pred)
     list = []
     for tup in subset_tups:
+        # acc = __match_metric(metric, y_true=tup[0], y_pred=tup[1], bm_pred=tup[2],
+        #             y_in_sample=y_in_sample, lower=tup[3], upper=tup[4])
         acc = __match_metric(metric, y_true=tup[0], y_pred=tup[1], bm_pred=tup[2],
-                    y_in_sample=y_in_sample, lower=tup[3], upper=tup[4])
+                    y_in_sample=y_in_sample)
         list.append(acc)
     return np.array(list)
 
@@ -90,8 +92,8 @@ def __match_metric(metric, **kwargs:np.ndarray):
     y_pred = kwargs.get("y_pred")
     bm_pred = kwargs.get("bm_pred")
     y_in_sample = kwargs.get("y_in_sample")
-    lower = kwargs.get("lower")
-    upper = kwargs.get("upper")
+    #lower = kwargs.get("lower")
+    #upper = kwargs.get("upper")
     match metric:
         case "MAE":
             return metrics.mae(y_true, y_pred)
@@ -137,8 +139,8 @@ def __match_metric(metric, **kwargs:np.ndarray):
             return metrics.mdase(y_true, y_pred, y_in_sample)
         case "RMSSE":
             return metrics.rmsse(y_true, y_pred, y_in_sample)
-        case "MSIS":
-            return metrics.msis(y_true, y_in_sample, lower, upper)
+        #case "MSIS":
+            #return metrics.msis(y_true, y_in_sample, lower, upper)
         case "PTSU":
             return metrics.ptsu(y_true, y_pred)
         case "PCDCP":
@@ -147,7 +149,8 @@ def __match_metric(metric, **kwargs:np.ndarray):
             raise ValueError("Metric name not recognized")
         
 def __input_check(**kwargs:np.ndarray):
-    keys = ["y_true", "y_pred", "bm_pred", "y_in_sample", "lower", "upper"]
+    #keys = ["y_true", "y_pred", "bm_pred", "y_in_sample", "lower", "upper"]
+    keys = ["y_true", "y_pred", "bm_pred", "y_in_sample"]
     for key in keys:
         if key not in kwargs:
             raise KeyError(f"Keyword argument {key} is required")
