@@ -24,4 +24,14 @@ fig.savefig('../data_images/stock.png')
 #def get_dataframe() -> pd.DataFrame:
 #    return stock_df
 
-df.to_csv('../processed_data/stock.csv')
+df = pd.read_csv('../datasets/stock_cleaned.csv')
+df = df.drop('Date', axis=1)
+df = df.rename(columns={'Week': 'Date'})
+df['Date'] = pd.to_datetime(df['Date'])
+df = df.iloc[:, :31]
+ddd_df = df.loc[:,['DDD']]
+graph = ddd_df.plot(figsize=(15,6), title="Overview of weekly prices for selected stock series, 01-2010 to 04-2022", use_index=True)
+graph.set_ylabel("USD")
+
+fig = graph.get_figure()
+fig.savefig('../data_images/stock2.png')
