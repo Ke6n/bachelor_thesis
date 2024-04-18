@@ -1,3 +1,1 @@
-models/multi_arima010_stock filter=lfs diff=lfs merge=lfs -text
-models/multi_holt_stock filter=lfs diff=lfs merge=lfs -text
-models/multi_arima111_stock filter=lfs diff=lfs merge=lfs -text
+models/* filter=lfs diff=lfs merge=lfs -text
