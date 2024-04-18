@@ -7,9 +7,9 @@ df = pd.read_csv('../../datasets/stock_cleaned.csv')
 df = df.drop('Date', axis=1)
 df = df.rename(columns={'Week': 'Date'})
 df['Date'] = pd.to_datetime(df['Date'])
+df = df.iloc[:, :31]
 df = pd.melt(df, id_vars=['Date'], var_name='TickerSymbol', value_name='Price')
 df = df.set_index(['TickerSymbol','Date'])
-df = df.iloc[:, :30]
 df['Price_1T'] = df['Price'].shift(1)
 df['Price_1T'].iloc[0] = df['Price_1T'].iloc[1]
 df['Price_2T'] = df['Price_1T'].shift(1)

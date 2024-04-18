@@ -5,6 +5,7 @@ from sktime.forecasting.naive import NaiveForecaster
 
 df = pd.read_csv('../../datasets/walmart_sales.csv')
 df['Date'] = pd.to_datetime(df['Date'], format="%d-%m-%Y")
+df = df[df['Store'] <= 30]
 df = df.set_index(['Store','Date'])
 df = df.sort_index()
 
