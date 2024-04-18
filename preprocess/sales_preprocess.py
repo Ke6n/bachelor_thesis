@@ -26,3 +26,15 @@ fig.savefig('../data_images/sales.png')
 #    return store1_df
 
 store1_df.to_csv('../processed_data/sales.csv')
+
+# for multi series
+df = pd.read_csv('../datasets/walmart_sales.csv')
+df['Date'] = pd.to_datetime(df['Date'], format="%d-%m-%Y")
+df = df[df['Store'] <= 30]
+df = df.set_index(['Store','Date'])
+df = df.sort_index()
+
+y = df.loc[:,['Weekly_Sales']]
+X = df.drop('Weekly_Sales', axis=1)
+y.to_csv('../processed_data/multi_sales_y.csv')
+X.to_csv('../processed_data/multi_sales_X.csv')

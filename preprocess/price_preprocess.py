@@ -25,3 +25,23 @@ fig = graph.get_figure()
 fig.savefig('../data_images/price.png')
 
 price_Albany_df.to_csv('../processed_data/price.csv')
+
+# for multi series
+df = pd.read_csv('../datasets/avocado_price.csv')
+df['Date'] = pd.to_datetime(df['Date'])
+from sklearn.preprocessing import LabelEncoder
+le = LabelEncoder()
+df['region'] = le.fit_transform(df['region'])
+df = df[df['region'] < 30]
+price_organic_df = df[(df["type"]=='organic')]
+
+price_organic_df.drop(['Unnamed: 0', 'type'], axis=1, inplace=True)
+price_organic_df['week'] = price_organic_df['Date'].dt.isocalendar().week
+
+price_organic_df = price_organic_df.set_index(['region','Date'])
+price_organic_df = price_organic_df.sort_index()
+
+y = price_organic_df.loc[:,['AveragePrice']]
+X = price_organic_df.drop('AveragePrice', axis=1)
+y.to_csv('../processed_data/multi_price_y.csv')
+X.to_csv('../processed_data/multi_price_X.csv')
