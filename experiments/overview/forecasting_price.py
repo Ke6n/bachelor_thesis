@@ -71,7 +71,7 @@ df_pred_arima010 = pd.DataFrame(pred_arima010)
 df_pred_arima010.rename(columns={'AveragePrice':'ARIMA(0,1,0)'}, inplace=True)
 np.savetxt('../exp_data/price/pred_arima010.txt',df_pred_arima010.values.ravel())
 
-df_pred_arima111 = pd.DataFrame(pred_arima010)
+df_pred_arima111 = pd.DataFrame(pred_arima111)
 df_pred_arima111.rename(columns={'AveragePrice':'ARIMA(1,1,1)'}, inplace=True)
 np.savetxt('../exp_data/price/pred_arima111.txt',df_pred_arima111.values.ravel())
 
