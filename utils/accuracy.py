@@ -66,7 +66,7 @@ def get_accuracy_arr(**kwargs:np.ndarray):
     return np.array(list)
 
 import utils.rolling_window as rwin      
-# Calculate the set of a metric with the help of rolling windows
+# Calculate the set of a metric for a serie with the help of rolling windows
 def get_accuracy_set(metric: str, window_size: int, **kwargs:np.ndarray):
     __input_check(**kwargs)
     y_true = kwargs.get("y_true")
@@ -86,6 +86,21 @@ def get_accuracy_set(metric: str, window_size: int, **kwargs:np.ndarray):
                     y_in_sample=y_in_sample)
         list.append(acc)
     return np.array(list)
+
+# A function that computes the set of a accuracy metric for a dataset with n series for a model using the rolling window.
+def get_multi_series_acc_set(metric, df_true, df_pred, df_in_sample, df_bm_pred, win_size, n=30):
+    acc_arr = []
+    for i in range(n):
+        index_label = df_true.index.get_level_values(0).unique()[i]
+        true = df_true.loc[index_label].values.ravel()
+        pred = df_pred.loc[index_label].values.ravel()
+        in_sample = df_in_sample.loc[index_label].values.ravel()
+        bm_pred = df_bm_pred.loc[index_label].values.ravel()
+        teil_arr = get_accuracy_set(metric, win_size, 
+                                y_true=true, y_pred=pred, 
+                                bm_pred=bm_pred, y_in_sample=in_sample)
+        acc_arr = np.concatenate((acc_arr, teil_arr))
+    return np.array(acc_arr)
 
 def __match_metric(metric, **kwargs:np.ndarray): 
     y_true = kwargs.get("y_true")
