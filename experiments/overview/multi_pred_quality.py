@@ -101,3 +101,8 @@ mean_acc_stock.to_latex('../exp_data/mean_stock.tex', column_format=col_format, 
 # var_acc_price.to_latex('../exp_data/var_price.tex', column_format=col_format, index=True, float_format="{:0.3e}".format)
 # var_acc_sales.to_latex('../exp_data/var_sales.tex', column_format=col_format, index=True, float_format="{:0.3e}".format)
 # var_acc_stock.to_latex('../exp_data/var_stock.tex', column_format=col_format, index=True, float_format="{:0.3e}".format)
+
+# save to csv
+mean_acc_price.to_csv('../exp_data/mean_price.csv')
+mean_acc_sales.to_csv('../exp_data/mean_sales.csv')
+mean_acc_stock.to_csv('../exp_data/mean_stock.csv')
