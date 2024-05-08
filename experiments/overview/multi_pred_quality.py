@@ -95,9 +95,9 @@ var_acc_stock = pd.DataFrame(var_acc_stock, index=models, columns=metrics).round
 
 # Generate latex table
 col_format = 'c' * (len(metrics) + 1)
-mean_acc_price.to_latex('../exp_data/mean_price.tex', column_format=col_format, index=True, float_format="{:0.3f}".format)
-mean_acc_sales.to_latex('../exp_data/mean_sales.tex', column_format=col_format, index=True, float_format="{:0.3f}".format)
-mean_acc_stock.to_latex('../exp_data/mean_stock.tex', column_format=col_format, index=True, float_format="{:0.3f}".format)
+mean_acc_price.T.to_latex('../exp_data/mean_price.tex', column_format=col_format, index=True, float_format="{:0.3f}".format)
+mean_acc_sales.T.to_latex('../exp_data/mean_sales.tex', column_format=col_format, index=True, float_format="{:0.3e}".format)
+mean_acc_stock.T.to_latex('../exp_data/mean_stock.tex', column_format=col_format, index=True, float_format="{:0.3f}".format)
 # var_acc_price.to_latex('../exp_data/var_price.tex', column_format=col_format, index=True, float_format="{:0.3e}".format)
 # var_acc_sales.to_latex('../exp_data/var_sales.tex', column_format=col_format, index=True, float_format="{:0.3e}".format)
 # var_acc_stock.to_latex('../exp_data/var_stock.tex', column_format=col_format, index=True, float_format="{:0.3e}".format)
@@ -106,3 +106,28 @@ mean_acc_stock.to_latex('../exp_data/mean_stock.tex', column_format=col_format, 
 mean_acc_price.to_csv('../exp_data/mean_price.csv')
 mean_acc_sales.to_csv('../exp_data/mean_sales.csv')
 mean_acc_stock.to_csv('../exp_data/mean_stock.csv')
+
+# visualization
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# price
+df = mean_acc_price.reset_index(names=['Models'])
+mean_price_melted = df.melt(id_vars=['Models'], var_name='Metrics', value_name='Value')
+sns.barplot(data=mean_price_melted, hue='Models', x='Value', y='Metrics')
+plt.savefig('../../experiments_plots/overview/multi_price_acc.png')
+plt.show()
+
+# sales
+df = mean_acc_sales.reset_index(names=['Models'])
+mean_sales_melted = df.melt(id_vars=['Models'], var_name='Metrics', value_name='Value')
+sns.barplot(data=mean_sales_melted, hue='Models', x='Value', y='Metrics')
+plt.savefig('../../experiments_plots/overview/multi_sales_acc.png')
+plt.show()
+
+# stock
+df = mean_acc_stock.reset_index(names=['Models'])
+mean_stock_melted = df.melt(id_vars=['Models'], var_name='Metrics', value_name='Value')
+sns.barplot(data=mean_stock_melted, hue='Models', x='Value', y='Metrics')
+plt.savefig('../../experiments_plots/overview/multi_stock_acc.png')
+plt.show()

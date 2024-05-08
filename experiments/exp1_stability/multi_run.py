@@ -70,5 +70,6 @@ for typ in data_types:
             var_acc = np.var(acc_arr)
             variance.append(var_acc)
         df = pd.DataFrame([variance], columns=metrics)
-        df = df.sort_values(by=df.index[0], axis=1)
-        df.to_latex(f'../exp_data/{typ}_{mod}_variance.tex', float_format="{:0.2e}".format, index=False)
+        df = df.sort_values(by=df.index[0], axis=1).T
+        df = df.rename(columns={0: 'Values'})
+        df.to_latex(f'../exp_data/{typ}_{mod}_variance.tex', float_format="{:0.2e}".format, index=True)

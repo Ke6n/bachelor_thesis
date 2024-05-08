@@ -42,16 +42,15 @@ df_stock = pd.concat([stock_true, stock_arima, stock_pred_holt, stock_pred_gbm])
 
 
 # Box-Plot of Predictions
-fig = plt.figure(figsize=(15,6))
 #--- price ---
-sns.boxplot(x = 'Model', y= 'AveragePrice', data=df_price)
+sns.boxplot(x = 'Model', y= 'AveragePrice', data=df_price, palette={'Actual':'green', 'ARIMA':'blue', 'Holt-Winter':'blue', 'LightGBM':'blue'})
 plt.savefig('../../experiments_plots/overview/multi_price.png')
 plt.show()
 #--- sales ---
-sns.boxplot(x = 'Model', y= 'Weekly_Sales', data=df_sales)
+sns.boxplot(x = 'Model', y= 'Weekly_Sales', data=df_sales, palette={'Actual':'green', 'ARIMA':'blue', 'Holt-Winter':'blue', 'LightGBM':'blue'})
 plt.savefig('../../experiments_plots/overview/multi_sales.png')
 plt.show()
 #--- stock ---
-sns.boxplot(x = 'Model', y= 'Price', data=df_stock)
+sns.boxplot(x = 'Model', y= 'Price', data=df_stock, palette={'Actual':'green', 'ARIMA':'blue', 'Holt-Winter':'blue', 'LightGBM':'blue'})
 plt.savefig('../../experiments_plots/overview/multi_stock.png')
 plt.show()
