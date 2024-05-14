@@ -111,23 +111,36 @@ mean_acc_stock.to_csv('../exp_data/mean_stock.csv')
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+def barplot(file_name, df, colors=["green", "blue", "yellow"]):
+    metrics = df_labels.get_metrics()
+    models = df_labels.get_main_models()
+    fontsize = 18
+    groups = [df.iloc[:, i:i+4] for i in range(0, 24, 4)]
+
+    fig, axs = plt.subplots(nrows=6, ncols=4, figsize=(18, 26), constrained_layout=True)
+    for i in range(6):
+        for j in range(4):
+            metric = metrics[i * 4 + j]
+            ax = axs[i, j]
+            group_data = groups[i][metric]
+            ax.barh(models, group_data.values.flatten(), color = colors)
+            ax.set_title(metric, fontsize = fontsize-2)
+            ax.tick_params(axis='both', labelsize=fontsize-3)
+            ax.xaxis.offsetText.set_fontsize(fontsize-3)
+            
+    for i in range(6):
+        axs[i, 0].set_ylabel('Model', fontsize=fontsize-3)
+
+    plt.tight_layout()
+    plt.savefig(f'../../experiments_plots/overview/{file_name}.png')
+    plt.show()
+
+
 # price
-df = mean_acc_price.reset_index(names=['Models'])
-mean_price_melted = df.melt(id_vars=['Models'], var_name='Metrics', value_name='Value')
-sns.barplot(data=mean_price_melted, hue='Models', x='Value', y='Metrics')
-plt.savefig('../../experiments_plots/overview/multi_price_acc.png')
-plt.show()
+barplot(file_name='multi_price_acc', df = mean_acc_price)
 
 # sales
-df = mean_acc_sales.reset_index(names=['Models'])
-mean_sales_melted = df.melt(id_vars=['Models'], var_name='Metrics', value_name='Value')
-sns.barplot(data=mean_sales_melted, hue='Models', x='Value', y='Metrics')
-plt.savefig('../../experiments_plots/overview/multi_sales_acc.png')
-plt.show()
+barplot(file_name='multi_sales_acc', df = mean_acc_sales)
 
 # stock
-df = mean_acc_stock.reset_index(names=['Models'])
-mean_stock_melted = df.melt(id_vars=['Models'], var_name='Metrics', value_name='Value')
-sns.barplot(data=mean_stock_melted, hue='Models', x='Value', y='Metrics')
-plt.savefig('../../experiments_plots/overview/multi_stock_acc.png')
-plt.show()
+barplot(file_name='multi_stock_acc', df = mean_acc_stock)
